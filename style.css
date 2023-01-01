@@ -12,3 +12,118 @@ body{
     height: 500px;
     background-color: #999;
 }
+
+#toolbar{
+    position: absolute;
+    left: 875px;
+    top: 30px;
+    width:150px;
+    height:500px;
+    background-color: gold;
+}
+.info
+{
+    position: absolute;
+    background-color: #800;
+    border:3px solid #eee;
+    width: 120px;
+    height: 60px;
+    left:15px;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+}
+#points{
+    top: 10px
+}
+#level
+{
+    top: 80px;
+}
+#balls{
+    top: 150px;
+}
+
+.type{
+    position: absolute;
+    top: 240px;
+    background-color: #eee;
+    width: 60px;
+    height:60px;
+    filter: opacity(0.5);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+#type1{
+    left: 10px
+}
+#type2{
+    left: 80px;
+}
+#type3{
+    left: 45px;
+    top: 310px;
+}
+.active{
+    filter: brightness(1)
+}
+.active:hover{
+    cursor: pointer;
+    filter: brightness(0.5);
+}
+
+.current{
+    border: 2px solid green;
+}
+.ball{
+    
+    border-radius: 50%;
+    margin: auto;
+}
+#ball1{
+    background-color: red;
+    width: 18px;
+    height: 18px;
+}
+
+#ball2{
+    background-color: blue;
+    width: 30px;
+    height: 30px;
+}
+#ball3{
+    background-color: orange;
+    width: 42px;
+    height: 42px;
+}
+.txt{
+    font-size: 12px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    position: absolute;
+    left:0px;
+    top:0px;
+    height: 15px;
+    background-color: black;
+    color: white;
+}
+.hide{
+    position: absolute;
+    filter: opacity(0.5);
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    width: 60px;
+    height: 60px;
+    padding: 12px;
+}
+#hide2{
+    left: 80px;
+    top: 240px;
+}
+#hide3{
+    left: 45px;
+    top: 310px;
+}

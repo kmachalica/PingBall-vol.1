@@ -6,10 +6,10 @@ const ctx = canvas.getContext('2d');
 
 canvas.width = 400;
 canvas.height = 500;
-
+let points = 0;
 let shooterPoints = [185,500,180,480,190,450,210,450,220,480,215,500];     //punkty do pętli for w drawShooter()
 let gameState = true;                 //w jakim stanie znajduje sie gra - false=piłki w ruchu lub true=przygotowanie do strzału
-let actualType = 2;                    //aktualny typ piłeczki, zmieniany w panelu bocznym
+let actualType = 1;                    //aktualny typ piłeczki, zmieniany w panelu bocznym
 let currentLevel = 1;                   //obecny poziom - jednocześnie ilość żyć najwyższego boxa
 let currentBalls = 1;               //ilosc piłeczek, zwiększa się po rozbiciu boxa z dodatkową piłeczką
 //BALLS////BALLS////BALLS////BALLS////BALLS//
@@ -59,9 +59,9 @@ class Ball{
             let minidistance = Math.min.apply(null,distance);
             let index = distance.indexOf(minidistance);
             let hittedBox = boxes[boxes.indexOf(table[index])]
-            hittedBox.lives-=1;
+            hittedBox.lives-=1; points++
             if(hittedBox.lives<=0){
-                boxes.splice(boxes.indexOf(hittedBox),1)
+                boxes.splice(boxes.indexOf(hittedBox),1);points+=10;
                 if(hittedBox.bonus){bonus(hittedBox.x+20,hittedBox.y+20);console.log('bonus')}
             }
             
@@ -108,13 +108,13 @@ class Bonus extends Ball{
             super(x,y,velX,velY);
             this.r = 10;
     }
-    moveSpecial(poss)
+    moveSpecial()
     {
         this.x+=this.velX;
         this.y+=this.velY;
     
         
-        if(poss){currentBoard();console.log('poloo')}
+       currentBoard()
     }
 }
 let bonusik;
@@ -133,6 +133,7 @@ const currentBoard=()=>{
 
     if(bonusik){bonusik.draw("+1")}
     
+    insertInnerToolbar(scoreDiv,levelDiv,ballDiv)
 
 }
 
@@ -287,9 +288,58 @@ const bonus = (x,y)=>{
     if(x>200){velX=-0.3}
     bonusik=new Bonus(x,y,velX,1)
     let moveSpecialInt = setInterval(()=>{
-        bonusik.moveSpecial(gameState);
-        if(bonusik.y>500){clearInterval(moveSpecialInt);bonusik=null;currentBoard();currentBalls++}
+        bonusik.moveSpecial();
+        if(bonusik.y>500){clearInterval(moveSpecialInt);bonusik=null;currentBalls++;currentBoard()}
     },10)
+}
+const createToolbar = ()=>{
+    let pTags = document.querySelectorAll('.info p');
+    
+    pTags[0].innerHTML = "Punkty";
+    pTags[2].innerHTML = "Poziom";
+    pTags[4].innerHTML = "Piłki"
+
+    scoreDiv = pTags[1]; 
+    levelDiv = pTags[3];
+    ballDiv = pTags[5];
+
+    pTags.forEach((e,i)=>{
+        if(i%2!=0){e.style.fontSize = "24px";e.style.fontWeight = 500}
+    })
+
+    document.querySelector('#type1').classList.add('active')
+    document.querySelector('#type1').classList.add('current')
+    document.querySelector('#type1').onclick=()=>{
+        document.getElementById('type2').onclick = ()=>{document.getElementById(`type${actualType}`).classList.remove('current');
+    actualType=2;document.getElementById(`type${actualType}`).classList.add('current')}
+    }
+    console.log(document.querySelector('#type1').classList)
+    document.getElementById('type3').onclick = ()=>{document.getElementById(`type${actualType}`).classList.remove('current');
+    actualType=3;document.getElementById(`type${actualType}`).classList.add('current')}
+
+    document.getElementById('type2').onclick = ()=>{document.getElementById(`type${actualType}`).classList.remove('current');
+    actualType=2;document.getElementById(`type${actualType}`).classList.add('current')}
+
+}
+
+const insertInnerToolbar=(s,l,b)=>{
+    s.innerHTML = points;
+    l.innerHTML = currentLevel;
+    b.innerHTML = currentBalls;
+
+    if(points>500&&points<520){document.getElementById('type2').classList.add('active');
+    let toDelete = document.getElementById('hide2')
+   
+    if(toDelete){document.getElementById('toolbar').removeChild(toDelete)}
+    }
+
+    if(points>1000&&points<1020){document.getElementById('type3').classList.add('active');
+    let toDelete = document.getElementById('hide3');
+   
+    if(toDelete){document.getElementById('toolbar').removeChild(toDelete)}
+    }
+    
+    
 }
 //START////START////START////START////START////START////START//
 window.onload = ()=>{
@@ -299,4 +349,4 @@ window.onload = ()=>{
 } 
 canvas.addEventListener('mousemove',getAim);
 
-
+createToolbar()
